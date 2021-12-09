@@ -246,12 +246,13 @@ function App() {
                         if (cycles.length === 2) {
                             if (i === 0) {
                                 // first path
+                                attribute = `M${x(nodeCycle.x)} ${x(nodeCycle.y)} L ${x(nodeCycle.x)} ${x(nodeCycle.y)! + x.bandwidth()} L${x(nodeCycle.x)! + x.bandwidth()} ${x(nodeCycle.y)} Z`;
+                            } else if (i === 1) {
+                                // second path
+
                                 attribute = `M ${x(nodeCycle.x)! + x.bandwidth()} ${x(nodeCycle.y)} L ${x(nodeCycle.x)} ${x(nodeCycle.y)! + x.bandwidth()} L${x(nodeCycle.x)! + x.bandwidth()} ${
                                     x(nodeCycle.y)! + x.bandwidth()
                                 } Z`;
-                            } else if (i === 1) {
-                                // second path
-                                attribute = `M${x(nodeCycle.x)} ${x(nodeCycle.y)} L ${x(nodeCycle.x)} ${x(nodeCycle.y)! + x.bandwidth()} L${x(nodeCycle.x)! + x.bandwidth()} ${x(nodeCycle.y)} Z`;
                             }
                         } else if (cycles.length === 3) {
                             if (i === 0) {
