@@ -1,8 +1,8 @@
 {
   "files": {
-    "main.css": "/hm00081/sooyeonjang2.git/static/css/main.4779e69c.chunk.css",
-    "main.js": "/hm00081/sooyeonjang2.git/static/js/main.e6d94435.chunk.js",
-    "main.js.map": "/hm00081/sooyeonjang2.git/static/js/main.e6d94435.chunk.js.map",
+    "main.css": "/hm00081/sooyeonjang2.git/static/css/main.1d4a6047.chunk.css",
+    "main.js": "/hm00081/sooyeonjang2.git/static/js/main.a5d381b6.chunk.js",
+    "main.js.map": "/hm00081/sooyeonjang2.git/static/js/main.a5d381b6.chunk.js.map",
     "runtime-main.js": "/hm00081/sooyeonjang2.git/static/js/runtime-main.dc969d25.js",
     "runtime-main.js.map": "/hm00081/sooyeonjang2.git/static/js/runtime-main.dc969d25.js.map",
     "static/js/2.a529e877.chunk.js": "/hm00081/sooyeonjang2.git/static/js/2.a529e877.chunk.js",
@@ -10,13 +10,13 @@
     "static/js/3.c7949659.chunk.js": "/hm00081/sooyeonjang2.git/static/js/3.c7949659.chunk.js",
     "static/js/3.c7949659.chunk.js.map": "/hm00081/sooyeonjang2.git/static/js/3.c7949659.chunk.js.map",
     "index.html": "/hm00081/sooyeonjang2.git/index.html",
-    "static/css/main.4779e69c.chunk.css.map": "/hm00081/sooyeonjang2.git/static/css/main.4779e69c.chunk.css.map",
+    "static/css/main.1d4a6047.chunk.css.map": "/hm00081/sooyeonjang2.git/static/css/main.1d4a6047.chunk.css.map",
     "static/js/2.a529e877.chunk.js.LICENSE.txt": "/hm00081/sooyeonjang2.git/static/js/2.a529e877.chunk.js.LICENSE.txt"
   },
   "entrypoints": [
     "static/js/runtime-main.dc969d25.js",
     "static/js/2.a529e877.chunk.js",
-    "static/css/main.4779e69c.chunk.css",
-    "static/js/main.e6d94435.chunk.js"
+    "static/css/main.1d4a6047.chunk.css",
+    "static/js/main.a5d381b6.chunk.js"
   ]
 }
