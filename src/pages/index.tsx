@@ -200,7 +200,9 @@ export async function getStaticProps() {
 
     return {
         props: {
+            //@ts-ignore
             syj: syjData as Syj,
+            //@ts-ignore
             doubleArray: doubleArrayData as number[][],
         },
     };

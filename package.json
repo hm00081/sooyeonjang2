@@ -28,11 +28,9 @@
     "scripts": {
         "predeploy": "npm run build",
         "deploy": "gh-pages -d build",
-        "start": "NODE_OPTIONS=--openssl-legacy-provider next build",
+        "start": "NODE_OPTIONS=--openssl-legacy-provider next start",
         "build": "next build",
-        "test": "react-scripts test",
-        "eject": "react-scripts eject",
-        "dev": "next",
+        "dev": "next dev",
         "lint": "next lint"
     },
     "eslintConfig": {
