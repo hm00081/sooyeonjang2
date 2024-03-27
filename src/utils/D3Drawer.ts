@@ -8,7 +8,6 @@ export const D3Drawer = (syj: Syj, cc: number[][]) => {
         height = 3000;
 
     const x = d3.scaleBand<number>().range([0, width]).domain(d3.range(syj.nodes.length));
-    //@ts-ignore
     const svg = d3
         .select('body')
         .append('svg')
@@ -26,11 +25,10 @@ export const D3Drawer = (syj: Syj, cc: number[][]) => {
     const matrix: NodeCycle[][] = [];
     const nodes = syj.nodes;
     const n = nodes.length;
-    //@ts-ignore
+
     nodes.forEach(function (node, i) {
-        //@ts-ignore
         node.index = i;
-        //@ts-ignore
+
         node.count = 0;
         matrix[i] = d3.range(n).map(function (j) {
             return { x: j, y: i, z: 0, nodeIndex: j };
@@ -38,17 +36,16 @@ export const D3Drawer = (syj: Syj, cc: number[][]) => {
     });
     // Convert links to matrix; count character occurrences.
     syj.links.forEach(function (link) {
-        //@ts-ignore
         matrix[link.source][link.target].z += link.value;
-        //@ts-ignore
+
         matrix[link.target][link.source].z += link.value;
-        //@ts-ignore
+
         matrix[link.source][link.source].z += link.value;
-        //@ts-ignore
+
         matrix[link.target][link.target].z += link.value;
-        //@ts-ignore
+
         nodes[link.source].count += link.value;
-        //@ts-ignore
+
         nodes[link.target].count += link.value;
     });
 
@@ -104,44 +101,34 @@ export const D3Drawer = (syj: Syj, cc: number[][]) => {
         .append('g')
         .attr('class', 'column')
         .attr('transform', function (d, i) {
-            //@ts-ignore
             return 'translate(' + x(i) + ') rotate(-90)';
         });
     // 세로줄
     column.append('line').attr('x1', -width);
     // row: d3.Selection<SVGGElement, Matrix, SVGGElement, unknown>
     //@ts-ignore
+
     function rowFunction(row: NodeCycle[], rowIndex: number) {
         const Selection = d3
-
             // @ts-ignore
             .select(this)
             .selectAll('.cell')
-            // .append("rect")
-            // .attr("class", "background")
-            // .attr("width", width)
-            // .attr("height", height)
             .data(
                 row.filter((d) => {
                     return d.z;
                 })
             )
-            // .data(row)
             .join('g')
             .attr('class', 'cell')
             .on('mouseover', mouseover)
             .on('mouseout', mouseout);
 
         Selection.each(function (nodeCycle) {
-            // [cycleNumber, cycleNumber, ...]
             const cycles: number[] = [];
             for (let cycle = 0; cycle < cc[0].length; cycle++) {
                 if (cc[rowIndex][cycle] === 0 && cc[nodeCycle.nodeIndex][cycle] === 0) {
-                    // fill(none)
                 } else if (cc[rowIndex][cycle] === 0 && cc[nodeCycle.nodeIndex][cycle] === 1) {
-                    // fill(none)
                 } else if (cc[rowIndex][cycle] === 1 && cc[nodeCycle.nodeIndex][cycle] === 0) {
-                    // fill(none)
                 } else if (cc[rowIndex][cycle] === 1 && cc[nodeCycle.nodeIndex][cycle] === 1) {
                     if (
                         selectVariable === '0' ||
@@ -269,7 +256,9 @@ export const D3Drawer = (syj: Syj, cc: number[][]) => {
                             break;
                     }
                     return color;
-                });
+                })
+                .attr('stroke', '#ffffff')
+                .attr('stroke-width', '0.2px');
         });
     }
 

@@ -1,6 +1,6 @@
 export type Syj = {
-    nodes: { name: number; group: number }[];
-    links: { source: string; target: string; value: number }[];
+    nodes: { name: number; group: number; index: number; count: number; }[];
+    links: { source: number; target: number; value: number }[];
 };
 
 export type NodeCycle = {
