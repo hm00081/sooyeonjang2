@@ -1,6 +1,7 @@
 import '../styles/global.css';
 import { Metadata } from 'next';
 import Navigation from './components/navigation';
+import { SpeedInsights } from '@vercel/speed-insights/next';
 
 export const metadata: Metadata = {
     title: {
@@ -14,7 +15,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     return (
         <html lang="en">
             <Navigation />
-            <body>{children}</body>
+            <body>
+                <SpeedInsights />
+                {children}
+            </body>
         </html>
     );
 }

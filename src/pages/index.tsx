@@ -3,6 +3,7 @@ import { useEffect } from 'react';
 import styles from '../../styles/styles.module.css';
 import { Syj } from '../types';
 import { D3Drawer } from '../utils/D3Drawer';
+import type { NextApiRequest, NextApiResponse } from 'next';
 
 //@ts-ignore
 const Home = ({ syj, doubleArray }) => {
