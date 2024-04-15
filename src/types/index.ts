@@ -1,1 +1,1 @@
-export type { Syj, NodeCycle } from './type';
+export type { Syj, NodeCycle, DoubleArray } from './type';

@@ -1,5 +1,5 @@
 export type Syj = {
-    nodes: { name: number; group: number; index: number; count: number; }[];
+    nodes: { name: number; group: number; index: number; count: number }[];
     links: { source: number; target: number; value: number }[];
 };
 
@@ -9,3 +9,5 @@ export type NodeCycle = {
     z: number;
     nodeIndex: number;
 };
+
+export type DoubleArray = number[][];

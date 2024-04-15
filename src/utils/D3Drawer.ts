@@ -1,27 +1,29 @@
 import { Syj, NodeCycle } from '../types';
 import * as d3 from 'd3';
 
-export const D3Drawer = (syj: Syj, cc: number[][]) => {
+export const D3Drawer = (syj: Syj, coOcurrence: number[][]) => {
     let selectVariable: string = '';
-    var margin = { top: 250, right: 200, bottom: 10, left: 50 },
+    let margin = { top: 250, right: 200, bottom: 10, left: 50 },
         width = 3000,
         height = 3000;
 
     const x = d3.scaleBand<number>().range([0, width]).domain(d3.range(syj.nodes.length));
-    const svg = d3
+    const svgContainer = d3
         .select('body')
         .append('svg')
         .attr('width', width + margin.left + margin.right)
         .attr('height', height + margin.top + margin.bottom)
-        .style('margin-left', margin.left + 'px')
-        .call(
-            //@ts-ignore
-            d3.zoom().on('zoom', (event) => {
-                svg.attr('transform', () => event.transform);
-            })
-        ) //zoomevent
-        .append('g')
-        .attr('transform', 'translate(' + margin.left + ',' + margin.top + ')');
+        .style('margin-left', margin.left + 'px');
+
+    const svg = svgContainer.append('g').attr('transform', `translate(${margin.left}, ${margin.top})`);
+
+    svgContainer.call(
+        //@ts-ignore
+        d3.zoom().on('zoom', (event) => {
+            svg.attr('transform', event.transform);
+        })
+    );
+
     const matrix: NodeCycle[][] = [];
     const nodes = syj.nodes;
     const n = nodes.length;
@@ -34,7 +36,7 @@ export const D3Drawer = (syj: Syj, cc: number[][]) => {
             return { x: j, y: i, z: 0, nodeIndex: j };
         });
     });
-    // Convert links to matrix; count character occurrences.
+    // Convert links to matrix; count character.
     syj.links.forEach(function (link) {
         matrix[link.source][link.target].z += link.value;
 
@@ -49,7 +51,7 @@ export const D3Drawer = (syj: Syj, cc: number[][]) => {
         nodes[link.target].count += link.value;
     });
 
-    // Precompute the orders.
+    // Precompute the orders
     const orders = {
         name: d3.range(n).sort(function (a, b) {
             return d3.ascending(nodes[a].name, nodes[b].name); //1~440까지 ascending
@@ -60,7 +62,7 @@ export const D3Drawer = (syj: Syj, cc: number[][]) => {
         }),
     };
 
-    // The default sort order.
+    // The default sort order
     x.domain(orders.name);
     //initiate()??
     svg.join(
@@ -71,15 +73,9 @@ export const D3Drawer = (syj: Syj, cc: number[][]) => {
 
     const rowgSelection = svg.selectAll('.row').data(matrix).enter().append('g').attr('class', 'row');
 
-    // .attr("transform", function (d, i) { return "translate(0," + x(i) + ")"; })
-
-    rowgSelection.each(rowFunction); // d3.each = (js,ts).forEach 같은 반복문
-
-    // original 가로줄
-    // rowgSelection.append("line").attr("x2", width);
+    rowgSelection.each(rowFunction); // d3.each = (js,ts).forEach
 
     rowgSelection.each(function (d, i) {
-        // d3.select(this)
         svg.append('line').attr('x1', 0).attr('y1', x(d[0].y)!).attr('x2', width).attr('y2', x(d[0].y)!);
     });
 
@@ -87,13 +83,12 @@ export const D3Drawer = (syj: Syj, cc: number[][]) => {
         .append('text')
         .attr('x', -2)
         .attr('y', (d, i) => x(d[0].y)! + x.bandwidth() * 0.75)
-        // .attr("dx", ".02em")
         .attr('font-size', '20%')
         .attr('text-anchor', 'end')
         .text(function (d, i) {
             return nodes[i].name;
         });
-
+    console.log(rowTextSelection);
     const column = svg
         .selectAll('.column')
         .data(matrix)
@@ -103,10 +98,9 @@ export const D3Drawer = (syj: Syj, cc: number[][]) => {
         .attr('transform', function (d, i) {
             return 'translate(' + x(i) + ') rotate(-90)';
         });
-    // 세로줄
+
     column.append('line').attr('x1', -width);
     // row: d3.Selection<SVGGElement, Matrix, SVGGElement, unknown>
-    //@ts-ignore
 
     function rowFunction(row: NodeCycle[], rowIndex: number) {
         const Selection = d3
@@ -125,11 +119,11 @@ export const D3Drawer = (syj: Syj, cc: number[][]) => {
 
         Selection.each(function (nodeCycle) {
             const cycles: number[] = [];
-            for (let cycle = 0; cycle < cc[0].length; cycle++) {
-                if (cc[rowIndex][cycle] === 0 && cc[nodeCycle.nodeIndex][cycle] === 0) {
-                } else if (cc[rowIndex][cycle] === 0 && cc[nodeCycle.nodeIndex][cycle] === 1) {
-                } else if (cc[rowIndex][cycle] === 1 && cc[nodeCycle.nodeIndex][cycle] === 0) {
-                } else if (cc[rowIndex][cycle] === 1 && cc[nodeCycle.nodeIndex][cycle] === 1) {
+            for (let cycle = 0; cycle < coOcurrence[0].length; cycle++) {
+                if (coOcurrence[rowIndex][cycle] === 0 && coOcurrence[nodeCycle.nodeIndex][cycle] === 0) {
+                } else if (coOcurrence[rowIndex][cycle] === 0 && coOcurrence[nodeCycle.nodeIndex][cycle] === 1) {
+                } else if (coOcurrence[rowIndex][cycle] === 1 && coOcurrence[nodeCycle.nodeIndex][cycle] === 0) {
+                } else if (coOcurrence[rowIndex][cycle] === 1 && coOcurrence[nodeCycle.nodeIndex][cycle] === 1) {
                     if (
                         selectVariable === '0' ||
                         selectVariable === '1' ||
@@ -263,15 +257,12 @@ export const D3Drawer = (syj: Syj, cc: number[][]) => {
     }
 
     d3.select('#order').on('change', function () {
-        //@ts-ignore
-        if (this.value === 'name' || this.value === 'group') {
+        const selectElement = this as HTMLSelectElement;
+        if (selectElement.value === 'name' || selectElement.value === 'group') {
             selectVariable = '';
-            //@ts-ignore
-            order(this.value);
+            order(selectElement.value);
         } else {
-            //@ts-ignore
-            selectVariable = this.value;
-            // selectvariable draw
+            selectVariable = selectElement.value;
             rowgSelection.each(rowFunction);
             console.log(d3.ascending(Number(selectVariable), 5));
         }

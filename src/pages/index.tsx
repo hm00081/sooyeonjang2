@@ -1,12 +1,15 @@
 'use client';
 import { useEffect } from 'react';
 import styles from '../../styles/styles.module.css';
-import { Syj } from '../types';
+import { Syj, DoubleArray } from '../types';
 import { D3Drawer } from '../utils/D3Drawer';
-import type { NextApiRequest, NextApiResponse } from 'next';
 
-//@ts-ignore
-const Home = ({ syj, doubleArray }) => {
+interface HomeProps {
+    syj: Syj;
+    doubleArray: DoubleArray;
+}
+
+const Home = ({ syj, doubleArray }: HomeProps) => {
     useEffect(() => {
         if (syj && doubleArray) {
             D3Drawer(syj, doubleArray);
@@ -195,18 +198,16 @@ const Home = ({ syj, doubleArray }) => {
     );
 };
 
+export default Home;
+
 export async function getStaticProps() {
     const syjData = (await import('../data/data.json')).default;
     const doubleArrayData = (await import('../data/double_array.json')).default;
 
     return {
         props: {
-            //@ts-ignore
             syj: syjData as Syj,
-            //@ts-ignore
             doubleArray: doubleArrayData as number[][],
         },
     };
 }
-
-export default Home;
